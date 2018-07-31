@@ -29,8 +29,7 @@ package java.util.concurrent;
  * simple publisher that only issues (when requested) a single {@code
  * TRUE} item to a single subscriber.  Because the subscriber receives
  * only a single item, this class does not use buffering and ordering
- * control required in most implementations (for example {@link
- * SubmissionPublisher}).
+ * control required in most implementations (for example SubmissionPublisher).
  *
  * <pre> {@code
  * class OneShotPublisher implements Publisher<Boolean> {

@@ -1,0 +1,139 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.sodeac</groupId>
+  <artifactId>org.sodeac.backport.jdk9.flow.api</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <name>Backport JDK 9 Concurrency Flow API</name>
+  
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <jdk.version>1.6</jdk.version>
+    <bundle.version>1.0.0</bundle.version>
+  </properties>
+  
+
+  <build>
+    <plugins>
+      <plugin>
+	    <groupId>org.apache.maven.plugins</groupId>
+	    <artifactId>maven-source-plugin</artifactId>
+	    <version>3.0.1</version>
+	    <executions>
+	      <execution>
+	        <id>attach-sources</id>
+	        <goals>
+	          <goal>jar-no-fork</goal>
+	        </goals>
+	      </execution>
+	    </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.0.0</version>
+        <executions>
+	        <execution>
+	          <id>attach-javadocs</id>
+	          <goals>
+	            <goal>jar</goal>
+	          </goals>
+	        </execution>
+	     </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.7.0</version>
+        <configuration>
+          <source>${jdk.version}</source>
+          <target>${jdk.version}</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <extensions>true</extensions>
+        <version>3.5.0</version>
+        <configuration>
+          <instructions>
+          	<_nodefaultversion>true</_nodefaultversion>
+          	<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+            <Bundle-Version>${bundle.version}</Bundle-Version>
+            <Bundle-RequiredExecutionEnvironment>JavaSE-1.6</Bundle-RequiredExecutionEnvironment>
+            <Bundle-ActivationPolicy>lazy</Bundle-ActivationPolicy>
+            <Export-Package>java.util.concurrent</Export-Package>
+          </instructions>
+          <source>${jdk.version}</source>
+          <target>${jdk.version}</target>
+        </configuration>
+      </plugin>
+      </plugins>
+  </build>
+  
+  <profiles>
+	<profile>
+		<id>release-sign-deploy-artifacts</id>
+		<activation>
+			<property>
+				<name>performRelease</name>
+				<value>true</value>
+			</property>
+		</activation>
+		<distributionManagement>
+			<snapshotRepository>
+				<id>ossrh</id>
+				<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+			</snapshotRepository>
+			<repository>
+				<id>ossrh</id>
+				<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+			</repository>
+		</distributionManagement>
+		<build>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-gpg-plugin</artifactId>
+					<version>1.6</version>
+					<executions>
+						<execution>
+							<id>sign-artifacts</id>
+							<phase>verify</phase>
+							<goals>
+								<goal>sign</goal>
+							</goals>
+							<configuration>
+								<keyname>${gpg.keyname}</keyname>
+								<passphraseServerId>${gpg.keyname}</passphraseServerId>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</build>
+	</profile>
+  </profiles>
+  
+  <developers>
+    <developer>
+      <id>Doug Lea</id>
+      <name>Doug Lea</name>
+    </developer>
+  </developers>
+  
+  <licenses>
+    <license>
+      <name>Creative Commons License</name>
+      <url>http://creativecommons.org/licenses/publicdomain</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  
+  <scm>
+    <connection>scm:cvs://:pserver:anonymous@gee.cs.oswego.edu/home/jsr166/jsr166</connection>
+    <url>http://gee.cs.oswego.edu/cgi-bin/viewcvs.cgi/jsr166/src/jsr166y/</url>
+  </scm>
+ 
+  <url>http://gee.cs.oswego.edu/cgi-bin/viewcvs.cgi/jsr166/</url>
+  
+</project>
